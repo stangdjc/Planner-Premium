@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planner Premium | Regional Readiness (HTML Deck)</title>
+  <style>
+    :root {
+      --primary-color: #004b87; /* Medtronic Blue */
+      --secondary-color: #00a9e0; /* Medtronic Light Blue */
+      --accent-color: #78be20; /* Medtronic Green */
+      --text-color: #212529;
+      --background-color: #f8f9fa;
+      --slide-background: #ffffff;
+      --border-color: #dee2e6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      overflow: hidden;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+    }
+    .nav-title {
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-top: 8px;
+    }
+    .nav-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav-item:hover { color: white; background-color: rgba(255,255,255,0.1); }
+    .nav-item.active {
+      color: white;
+      background-color: var(--secondary-color);
+    }
+    .nav-index {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      min-width: 28px;
+      text-align: right;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--primary-color);
+      color: white;
+      font-size: 12px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: background 0.2s ease;
+    }
+    .btn:hover { background: var(--secondary-color); }
+    .progress {
+      width: 120px;
+      height: 4px;
+      background: var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-color);
+      transition: width 0.25s ease;
+    }
+    .slide {
+      flex: 1;
+      border-radius: 12px;
+      padding: 40px 50px;
+      background: var(--slide-background);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      overflow: auto;
+    }
+    .slide.active { display: flex; }
+    .slide-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      height: 30px;
+      width: auto;
+    }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      font-weight: 700;
+    }
+    .title {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--primary-color);
+    }
+    .subtitle {
+      font-size: 18px;
+      color: #6c757d;
+      max-width: 900px;
+      line-height: 1.5;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 8px;
+    }
+    li {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 10px;
+      align-items: start;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    li::before {
+      content: "▪";
+      color: var(--secondary-color);
+      font-size: 20px;
+      line-height: 0.8;
+    }
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;}
+    .tag {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 75, 135,.
+ 0.1);
+      border: 1px solid transparent;
+      color: var(--primary-color);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .diagram {
+      width: 100%;
+      max-height: 350px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #f8f9fa;
+      margin-top: 20px;
+    }
+    .footnote {
+      font-size: 12px;
+      color: #6c757d;
+      margin-top: auto;
+      padding-top: 10px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">Planner Premium</div>
+    <div class="nav-title">Slides</div>
+    <ul class="nav-list" id="nav"></ul>
+  </aside>
+  <main class="content">
+    <div class="toolbar">
+      <div class="meta">
+        <span class="pill">Regional Readiness</span>
+        <span id="slideCounter">1 / 19</span>
+      </div>
+      <div class="controls">
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+        <button class="btn" id="prevBtn">Prev ←</button>
+        <button class="btn" id="nextBtn">Next →</button>
+      </div>
+    </div>
+    <div id="slides"></div>
+  </main>
+  <script>
+    const slidesData = [
+      {
+        eyebrow: "Planner Premium",
+        title: "Planner Premium for Regional Readiness",
+        subtitle: "Pipeline to Close-Out in 30 minutes",
+        bullets: [
+          "Standardized governance, tracking, and reporting for NPIs",
+          "Teams-first collaboration: files, links, and decisions live in cards",
+          "Brand-aligned visuals; ready for PPT export or HTML delivery"
+        ],
+        tags: ["Title", "NPI"]
+      },
+      {
+        eyebrow: "Overview",
+        title: "Agenda",
+        subtitle: "Lifecycle, roles, data discipline, governance, reporting, next steps",
+        bullets: [
+          "Lifecycle & governance flow",
+          "Roles, handoffs, and escalation",
+          "Required data, custom fields, hygiene (cards, folders, links)",
+          "Timeline/dependencies and integration points",
+          "Next steps to finalize and publish"
+        ],
+        tags: ["Agenda"]
+      },
+      {
+        eyebrow: "Summary",
+        title: "Executive Summary",
+        bullets: [
+          "Single source of truth from intake to close-out",
+          "Gated governance with explicit owners and decisions",
+          "Consistent reporting via required fields, labels, and dependencies",
+          "Ready-to-use diagrams and template group to accelerate builds"
+        ],
+        tags: ["Summary"]
+      },
+      {
+        eyebrow: "Audience",
+        title: "Who This Serves",
+        bullets: [
+          "Users (regional PMs/SMEs): day-to-day updates, checklists, comms in Teams",
+          "Project Managers: phase gates, risk/reporting cadence, board hygiene",
+          "People Leaders: portfolio visibility, resourcing, decisions and sign-offs"
+        ],
+        tags: ["Roles"],
+        diagram: "diagram_06_roles_matrix.png"
+      },
+      {
+        eyebrow: "Lifecycle",
+        title: "End-to-End Flow",
+        bullets: [
+          "To be reviewed → Pipeline → Global Alignment → Regional Alignment → Engage → Kick-off → Execute → Close-Out",
+          "Start Pipeline/Global Alignment ≥2 years pre-launch; copy Template Group to seed Upstream + regional cards",
+          "Keep order-of-operations with “00” sub-task for global pulse and clear naming across regions"
+        ],
+        tags: ["Flow"],
+        diagram: "diagram_01_npi_lifecycle.png"
+      },
+      {
+        eyebrow: "Governance",
+        title: "Phase Gates",
+        bullets: [
+          "Seven gates from intake to close-out with explicit owners and exit criteria",
+          "Intake→Pipeline: scope clarity, OU contact, initial go-live dates; Execute→Close-Out: deliverables done, lessons captured, archives linked",
+          "PMs drive gate readiness; leaders decide funding/resourcing; escalate when data is missing"
+        ],
+        tags: ["Governance"],
+        diagram: "diagram_03_phase_gate_decision.png"
+      },
+      {
+        eyebrow: "Governance",
+        title: "Escalation Path",
+        bullets: [
+          "Use governance calls to unblock; 1:1 with manager when stalled",
+          "Surface missing minimum data early; log risks in card fields and labels for visibility",
+          "Route escalations by phase owner; keep assignments current so escalations land on the right person"
+        ],
+        tags: ["Escalation"],
+        diagram: "diagram_04_escalation_tree.png"
+      },
+      {
+        eyebrow: "Structure",
+        title: "Board Architecture",
+        bullets: [
+          "Copy Template Group → Upstream header + regional sub-cards; remove unused regions",
+          "Naming: “RR – [Project] – Upstream”; “RR – [Project] – [Region]” to keep hierarchy clean; add “00 Sub-Task” for Global",
+          "Keep dependencies visible: Summary + Sub-Tasks drive Timeline view; use labels per OU/region"
+        ],
+        tags: ["Architecture"],
+        diagram: "diagram_02_card_hierarchy.png"
+      },
+      {
+        eyebrow: "Buckets",
+        title: "Intake to Pipeline",
+        bullets: [
+          "To be reviewed: scope unclear; use governance call to clarify",
+          "Pipeline: confirmed project; assign OU contact; capture go-live dates per region; set bucket",
+          "Minimum data: Planisware ID, go-live by region, PMO/OU contact, Finish date; attach starter files/links (Teams folder, Playbook)"
+        ],
+        tags: ["Buckets"]
+      },
+      {
+        eyebrow: "Global",
+        title: "Global Alignment",
+        bullets: [
+          "Move card to Global Alignment; create Teams folder: “PLC Regional Readiness – NPI Teams – 3. Global Alignment”",
+          "Populate Global NPI Playbook Section 1; open Planisware line; add Planisware ID to card",
+          "Invite PMO/Global Service, Global Marketing, COE stakeholders; capture decisions and deliverables in card/Playbook"
+        ],
+        tags: ["Global Alignment"]
+      },
+      {
+        eyebrow: "Regional",
+        title: "Regional Alignment → Engage",
+        bullets: [
+          "Confirm regions, owners, dependencies; verify labels and custom fields",
+          "Engage: set meetings, attach folder links, prep agenda; keep OU/regional cards aligned and labeled",
+          "Ensure Timeline view reflects cross-region sequencing and dependency types; add Next Activity"
+        ],
+        tags: ["Regional"]
+      },
+      {
+        eyebrow: "Delivery",
+        title: "Kick-off → Execute",
+        bullets: [
+          "Kick-off: finalize scope, roles, cadence; review checklists for tasks and risks",
+          "Execute: weekly board hygiene; update Next Activity, status, dates, risks, attachments",
+          "Use in-card Teams messaging; dependencies maintained; move buckets only when exit criteria are met"
+        ],
+        tags: ["Delivery"]
+      },
+      {
+        eyebrow: "Close-Out",
+        title: "Close-Out",
+        bullets: [
+          "Criteria: deliverables complete, lessons captured, docs archived to Teams folder (“Global Alignment” structure)",
+          "Close tasks in Planner; mark dependencies complete; confirm Planisware/Playbook updates",
+          "Obtain sign-off from PM/Leader; remove stale attachments and labels"
+        ],
+        tags: ["Close-Out"]
+      },
+      {
+        eyebrow: "Data",
+        title: "Required Fields",
+        bullets: [
+          "Upstream Planisware ID; go-live dates by region (per OU)",
+          "PMO/OU Contact; Finish date (first region live), Start date, Next Activity date (different from End date)",
+          "Labels consistent for OU/region/status; required before bucket moves"
+        ],
+        tags: ["Data"]
+      },
+      {
+        eyebrow: "Data",
+        title: "Custom Fields (max 10)",
+        bullets: [
+          "OU/iOU, Region, Complexity (SM/Med/LRG/XL), Current State, Next Activity Date",
+          "Risks & Issues (200 chars), Tooling (<$25k options), Goals (purpose + OU)",
+          "SPRINT for rapid actions; LOOP for upstream overview; keep lists clean and capped at 10 fields"
+        ],
+        tags: ["Data"]
+      },
+      {
+        eyebrow: "Scheduling",
+        title: "Timeline & Dependencies",
+        bullets: [
+          "Build from Summary + Sub-Tasks; use FS/FF/SS/SF dependency types",
+          "Add “00 Sub-Task” for global milestone pulses; maintain order-of-operations via naming",
+          "Use Timeline tab to validate critical path before gate decisions"
+        ],
+        tags: ["Timeline"]
+      },
+      {
+        eyebrow: "Systems",
+        title: "System Integration",
+        bullets: [
+          "Planner cards link to Teams folders and Planisware records; attach links, not duplicates",
+          "Hyperlink Pipeline ↔ Summary cards; include top-level project folder link for quick navigation",
+          "Align attachments with folder structure to keep one source of truth; use transparent PNG icons for visuals"
+        ],
+        tags: ["Integration"],
+        diagram: "diagram_05_system_integration.png"
+      },
+      {
+        eyebrow: "Hygiene",
+        title: "File & Link Hygiene",
+        bullets: [
+          "Store in “PLC Regional Readiness – NPI” structure; attach links to cards",
+          "Avoid duplicate uploads; name files consistently; remove stale attachments",
+          "Use transparent PNG icons for visuals; keep labels/fields tidy for filtering"
+        ],
+        tags: ["Hygiene"]
+      },
+      {
+        eyebrow: "Roles",
+        title: "Roles & RACI",
+        bullets: [
+          "Main PM: gate readiness, data quality, cadence, escalation routing",
+          "Regional PMs: local tasks, dates, risks, dependencies; keep labels current",
+          "Leaders: approve funding/resources, resolve escalations, provide sign-off; ensure portfolio visibility"
+        ],
+        tags: ["Roles"]
+      }
+    ];
+
+    const slidesRoot = document.getElementById('slides');
+    const navRoot = document.getElementById('nav');
+    const counter = document.getElementById('slideCounter');
+    const progressFill = document.getElementById('progressFill');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function createSlide(item, index) {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.index = index;
+
+      const logo = document.createElement('img');
+      logo.src = 'resources/art-logo-en-rgb-bl.png';
+      logo.className = 'slide-logo';
+      slide.appendChild(logo);
+
+      const eyebrow = document.createElement('div');
+      eyebrow.className = 'eyebrow';
+      eyebrow.textContent = item.eyebrow || 'Planner Premium';
+      slide.appendChild(eyebrow);
+
+      const title = document.createElement('h1');
+      title.className = 'title';
+      title.textContent = item.title;
+      slide.appendChild(title);
+
+      if (item.subtitle) {
+        const subtitle = document.createElement('p');
+        subtitle.className = 'subtitle';
+        subtitle.textContent = item.subtitle;
+        slide.appendChild(subtitle);
+      }
+
+      if (item.tags && item.tags.length) {
+        const tagRow = document.createElement('div');
+        tagRow.className = 'tag-row';
+        item.tags.forEach(tag => {
+          const el = document.createElement('span');
+          el.className = 'tag';
+          el.textContent = tag;
+          tagRow.appendChild(el);
+        });
+        slide.appendChild(tagRow);
+      }
+
+      if (item.bullets && item.bullets.length) {
+        const list = document.createElement('ul');
+        item.bullets.forEach(text => {
+          const li = document.createElement('li');
+          li.textContent = text;
+          list.appendChild(li);
+        });
+        slide.appendChild(list);
+      }
+
+    if (item.diagram) {
+      const img = document.createElement('img');
+      img.className = 'diagram';
+      img.alt = item.title;
+      img.src = item.diagram;
+      slide.appendChild(img);
+    }
+
+      const foot = document.createElement('div');
+      foot.className = 'footnote';
+      foot.textContent = 'Use ← → or click nav to move. Ready for PPT export.';
+      slide.appendChild(foot);
+
+      return slide;
+    }
+
+    function createNav(item, index) {
+      const li = document.createElement('li');
+      li.className = 'nav-item';
+      li.dataset.index = index;
+
+      const idx = document.createElement('span');
+      idx.className = 'nav-index';
+      idx.textContent = String(index + 1).padStart(2, '0');
+      li.appendChild(idx);
+
+      const label = document.createElement('span');
+      label.textContent = item.title;
+      li.appendChild(label);
+
+      li.addEventListener('click', () => setActive(index));
+      return li;
+    }
+
+    slidesData.forEach((item, i) => {
+      slidesRoot.appendChild(createSlide(item, i));
+      navRoot.appendChild(createNav(item, i));
+    });
+
+    const slideEls = [...document.querySelectorAll('.slide')];
+    const navEls = [...document.querySelectorAll('.nav-item')];
+    let current = 0;
+
+    function setActive(idx) {
+      if (idx < 0 || idx >= slideEls.length) return;
+      slideEls[current].classList.remove('active');
+      navEls[current].classList.remove('active');
+
+      current = idx;
+      slideEls[current].classList.add('active');
+      navEls[current].classList.add('active');
+
+      counter.textContent = `${current + 1} / ${slideEls.length}`;
+      progressFill.style.width = `${((current + 1) / slideEls.length) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => setActive(current - 1));
+    nextBtn.addEventListener('click', () => setActive(current + 1));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') setActive(current - 1);
+      if (e.key === 'ArrowRight') setActive(current + 1);
+    });
+
+    setActive(0);
+  </script>
+</body>
+</html>

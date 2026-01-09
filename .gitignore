@@ -1,0 +1,39 @@
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+~*
+
+# Local build files
+dist/
+build/
+
+# Don't ignore:
+# ✓ All HTML files
+# ✓ All PNG diagrams
+# ✓ resources/ folder
+# ✓ scripts/ folder
+# ✓ .github/ workflows
